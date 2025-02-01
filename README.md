@@ -4,6 +4,7 @@
 **Brian Kinyanjui Gathui**  
 📧 [briankgathui@gmail.com](mailto:briankgathui@gmail.com)
 
+<br>
 
 ## Project Description
 **VolunTree** is a robust platform designed to empower Organizations in creating and managing volunteer-driven charity events with ease and efficiency. VolunTree streamlines the entire process, taking care of everything—from **Organization Registration & Management** and **Volunteer Registration & Management** to **Event Creation & Management** and **Task Assignment & Management**—all with consultation from the organizations. By partnering with VolunTree, organizations can focus entirely on their mission while we handle the logistics, supported by our comprehensive suite of tools and dedicated team to ensure every event is executed flawlessly.
@@ -134,7 +135,6 @@ voluntree/
 
 <br>
 
----
 
 ## 📜 License
 
@@ -148,4 +148,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 Copyright © 2025 Brian Kinyanjui Gathui
 
----
+<br>
