@@ -74,8 +74,6 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 
 ---
 
----
-
 ## 🛠️ Technologies Used
 
 ### **Frontend (Client)**
