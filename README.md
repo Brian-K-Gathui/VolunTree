@@ -6,6 +6,8 @@
 
 ---
 
+<br><br>
+
 ## Project Description
 **VolunTree** is a robust platform designed to empower Organizations in creating and managing volunteer-driven charity events with ease and efficiency. VolunTree streamlines the entire process, taking care of everything—from **Organization Registration & Management** and **Volunteer Registration & Management** to **Event Creation & Management** and **Task Assignment & Management**—all with consultation from the organizations. By partnering with VolunTree, organizations can focus entirely on their mission while we handle the logistics, supported by our comprehensive suite of tools and dedicated team to ensure every event is executed flawlessly.
 
@@ -59,6 +61,8 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 
 ---
 
+<br><br>
+
 ## 🔗 Relationships Table
 
 | Entity A    | Relationship Type | Entity B    | Description |
@@ -73,6 +77,8 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 | Task       | Many-to-One      | Volunteer  | A Task is assigned to one Volunteer. |
 
 ---
+
+<br><br>
 
 ## 🛠️ Technologies Used
 
@@ -101,6 +107,8 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 - **Git & GitHub** – Version control
 
 ---
+
+<br><br>
 
 ## 📁 Project File Structure
 The **VolunTree** project follows a structured directory setup, ensuring clean separation of concerns between the frontend and backend components.
