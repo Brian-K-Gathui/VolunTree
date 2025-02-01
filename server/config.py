@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+# ===============================
+#        CONFIGURATION FILE
+# ===============================
+
 # Standard library imports
 
 # Remote library imports
@@ -8,24 +14,32 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
-# Local imports
-
-# Instantiate app, set attributes
+# -------------------------------
+# FLASK APPLICATION SETUP
+# -------------------------------
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.json.compact = False
 
-# Define metadata, instantiate db
+# -------------------------------
+# DATABASE CONFIGURATION
+# -------------------------------
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///voluntree.db'  # SQLite database for VolunTree
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'supersecretkey'  # Secret key for session handling
+app.json.compact = False  # Ensures better JSON formatting
+
+# -------------------------------
+# DATABASE INITIALIZATION
+# -------------------------------
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
-db = SQLAlchemy(metadata=metadata)
-migrate = Migrate(app, db)
-db.init_app(app)
+db = SQLAlchemy(metadata=metadata)  # Create a SQLAlchemy database instance
+migrate = Migrate(app, db)  # Initialize migration support
+db.init_app(app)  # Bind SQLAlchemy to the Flask app
 
-# Instantiate REST API
-api = Api(app)
+# -------------------------------
+# API & CORS SETUP
+# -------------------------------
+api = Api(app)  # Initialize RESTful API
+CORS(app)  # Enable Cross-Origin Resource Sharing (CORS) for frontend communication
 
-# Instantiate CORS
-CORS(app)
