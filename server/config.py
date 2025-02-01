@@ -43,3 +43,6 @@ db.init_app(app)  # Bind SQLAlchemy to the Flask app
 api = Api(app)  # Initialize RESTful API
 CORS(app)  # Enable Cross-Origin Resource Sharing (CORS) for frontend communication
 
+print("\n✅ Flask app configured successfully!")
+print("🚀 Database connected to 'voluntree.db'")
+print("_____________________________________________\n")

@@ -20,7 +20,7 @@ from models import Organizer, Event, Volunteer, Task, event_volunteers
 # ===============================
 @app.route('/')
 def index():
-    return '<h1>VolunTree API Server</h1>'
+    return "<h1>VolunTree API Server is Running! 🌱</h1>\n"
 
 # ===============================
 #       ORGANIZER RESOURCE
@@ -28,7 +28,9 @@ def index():
 class OrganizerResource(Resource):
     def get(self):
         """Get all organizers"""
-        return make_response([org.to_dict() for org in Organizer.query.all()], 200)
+        organizers = [org.to_dict() for org in Organizer.query.all()]
+        print(f"📢 Fetching {len(organizers)} organizers...")  
+        return make_response(organizers, 200)
 
     def post(self):
         """Create a new organizer"""
@@ -41,6 +43,7 @@ class OrganizerResource(Resource):
         )
         db.session.add(organizer)
         db.session.commit()
+        print(f"✅ Organizer '{organizer.name}' added successfully!")
         return make_response(organizer.to_dict(), 201)
 
 api.add_resource(OrganizerResource, '/organizers')
@@ -53,7 +56,9 @@ class OrganizerById(Resource):
         """Get an organizer by ID"""
         organizer = Organizer.query.get(id)
         if organizer:
+            print(f"🔎 Organizer Found: {organizer.name}")
             return make_response(organizer.to_dict(), 200)
+        print("❌ Organizer not found!")
         return make_response({'error': 'Organizer not found'}, 404)
 
     def patch(self, id):
@@ -64,7 +69,9 @@ class OrganizerById(Resource):
             for key, value in data.items():
                 setattr(organizer, key, value)
             db.session.commit()
+            print(f"✏️ Organizer '{organizer.name}' updated successfully!")
             return make_response(organizer.to_dict(), 200)
+        print("❌ Organizer not found for update!")
         return make_response({'error': 'Organizer not found'}, 404)
 
     def delete(self, id):
@@ -73,7 +80,9 @@ class OrganizerById(Resource):
         if organizer:
             db.session.delete(organizer)
             db.session.commit()
+            print(f"🗑️ Organizer '{organizer.name}' deleted!")
             return make_response({'message': 'Organizer deleted successfully'}, 200)
+        print("❌ Organizer not found for deletion!")
         return make_response({'error': 'Organizer not found'}, 404)
 
 api.add_resource(OrganizerById, '/organizers/<int:id>')
@@ -84,7 +93,9 @@ api.add_resource(OrganizerById, '/organizers/<int:id>')
 class EventResource(Resource):
     def get(self):
         """Get all events"""
-        return make_response([event.to_dict() for event in Event.query.all()], 200)
+        events = [event.to_dict() for event in Event.query.all()]
+        print(f"📢 Fetching {len(events)} events...")
+        return make_response(events, 200)
 
     def post(self):
         """Create a new event"""
@@ -97,6 +108,7 @@ class EventResource(Resource):
         )
         db.session.add(event)
         db.session.commit()
+        print(f"✅ Event '{event.name}' created successfully!")
         return make_response(event.to_dict(), 201)
 
 api.add_resource(EventResource, '/events')
@@ -107,7 +119,9 @@ api.add_resource(EventResource, '/events')
 class VolunteerResource(Resource):
     def get(self):
         """Get all volunteers"""
-        return make_response([volunteer.to_dict() for volunteer in Volunteer.query.all()], 200)
+        volunteers = [volunteer.to_dict() for volunteer in Volunteer.query.all()]
+        print(f"📢 Fetching {len(volunteers)} volunteers...")
+        return make_response(volunteers, 200)
 
     def post(self):
         """Create a new volunteer"""
@@ -119,6 +133,7 @@ class VolunteerResource(Resource):
         )
         db.session.add(volunteer)
         db.session.commit()
+        print(f"✅ Volunteer '{volunteer.name}' registered successfully!")
         return make_response(volunteer.to_dict(), 201)
 
 api.add_resource(VolunteerResource, '/volunteers')
@@ -129,7 +144,9 @@ api.add_resource(VolunteerResource, '/volunteers')
 class TaskResource(Resource):
     def get(self):
         """Get all tasks"""
-        return make_response([task.to_dict() for task in Task.query.all()], 200)
+        tasks = [task.to_dict() for task in Task.query.all()]
+        print(f"📢 Fetching {len(tasks)} tasks...")
+        return make_response(tasks, 200)
 
     def post(self):
         """Create a new task"""
@@ -143,6 +160,7 @@ class TaskResource(Resource):
         )
         db.session.add(task)
         db.session.commit()
+        print(f"✅ Task '{task.title}' created successfully!")
         return make_response(task.to_dict(), 201)
 
 api.add_resource(TaskResource, '/tasks')
@@ -152,10 +170,13 @@ api.add_resource(TaskResource, '/tasks')
 # ===============================
 @app.errorhandler(404)
 def not_found(error):
+    print("❌ 404 Error: Route not found!")
     return make_response({'error': 'Not found'}, 404)
 
 # ===============================
 #       RUN THE APPLICATION
 # ===============================
 if __name__ == '__main__':
+    print("\n🚀 VolunTree API is starting...")
+    print("_____________________________________________\n")
     app.run(port=5555, debug=True)

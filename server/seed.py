@@ -5,6 +5,7 @@
 # ===============================
 
 # Standard library imports
+import random  # Import `random` for proper sampling
 from random import randint, choice as rc  # Random selection and number generation
 
 # Remote library imports
@@ -19,13 +20,14 @@ fake = Faker()
 
 if __name__ == '__main__':
     with app.app_context():  # Ensures database operations are executed in the app's context
-        print("Starting seed process...")
+        print("\n🚀 Starting seed process...")
+        print("_____________________________________________\n")
 
         # ===============================
         # DELETE EXISTING DATABASE DATA
         # ===============================
+        print("🗑️  Clearing old data...")
 
-        print("Clearing old data...")
         db.session.query(event_volunteers).delete()  # Clear event-volunteers association table first
         db.session.query(Task).delete()  # Clear tasks
         db.session.query(Event).delete()  # Clear events
@@ -34,13 +36,14 @@ if __name__ == '__main__':
 
         # Commit deletion
         db.session.commit()
-        print("Old data cleared!")
+        print("✅ Old data cleared!")
+        print("_____________________________________________\n")
 
         # ===============================
         # SEED ORGANIZERS
         # ===============================
+        print("🏢 Seeding organizers...")
 
-        print("Seeding organizers...")
         organizers = []
         for _ in range(5):  # Creating 5 organizations
             organizer = Organizer(
@@ -51,16 +54,16 @@ if __name__ == '__main__':
             )
             organizers.append(organizer)
 
-        # Bulk insert organizers into the database
         db.session.add_all(organizers)
         db.session.commit()
-        print(f"Seeded {len(organizers)} organizers!")
+        print(f"✅ Seeded {len(organizers)} organizers!")
+        print("_____________________________________________\n")
 
         # ===============================
         # SEED EVENTS
         # ===============================
+        print("📅 Seeding events...")
 
-        print("Seeding events...")
         events = []
         for _ in range(10):  # Creating 10 events
             event = Event(
@@ -73,13 +76,14 @@ if __name__ == '__main__':
 
         db.session.add_all(events)
         db.session.commit()
-        print(f"Seeded {len(events)} events!")
+        print(f"✅ Seeded {len(events)} events!")
+        print("_____________________________________________\n")
 
         # ===============================
         # SEED VOLUNTEERS
         # ===============================
+        print("🙋 Seeding volunteers...")
 
-        print("Seeding volunteers...")
         volunteers = []
         for _ in range(15):  # Creating 15 volunteers
             volunteer = Volunteer(
@@ -91,16 +95,17 @@ if __name__ == '__main__':
 
         db.session.add_all(volunteers)
         db.session.commit()
-        print(f"Seeded {len(volunteers)} volunteers!")
+        print(f"✅ Seeded {len(volunteers)} volunteers!")
+        print("_____________________________________________\n")
 
         # ===============================
         # SEED EVENT-VOLUNTEERS ASSOCIATION
         # ===============================
+        print("🔗 Assigning volunteers to events...")
 
-        print("Assigning volunteers to events...")
         event_volunteer_entries = []
         for volunteer in volunteers:
-            assigned_events = rc(events, randint(1, 3))  # Each volunteer is assigned 1-3 events
+            assigned_events = random.sample(events, randint(1, min(3, len(events))))  # Assign 1-3 unique events
             for event in assigned_events:
                 event_volunteer_entries.append(
                     {"event_id": event.id, "volunteer_id": volunteer.id}
@@ -109,13 +114,14 @@ if __name__ == '__main__':
         # Execute bulk insert for event-volunteers many-to-many association
         db.session.execute(event_volunteers.insert(), event_volunteer_entries)
         db.session.commit()
-        print(f"Assigned volunteers to {len(event_volunteer_entries)} event-volunteer entries!")
+        print(f"✅ Assigned volunteers to {len(event_volunteer_entries)} event-volunteer entries!")
+        print("_____________________________________________\n")
 
         # ===============================
         # SEED TASKS
         # ===============================
+        print("📝 Seeding tasks...")
 
-        print("Seeding tasks...")
         statuses = ["pending", "in progress", "completed"]
         tasks = []
         for _ in range(20):  # Creating 20 tasks
@@ -130,9 +136,11 @@ if __name__ == '__main__':
 
         db.session.add_all(tasks)
         db.session.commit()
-        print(f"Seeded {len(tasks)} tasks!")
+        print(f"✅ Seeded {len(tasks)} tasks!")
+        print("_____________________________________________\n")
 
         # ===============================
         # COMPLETION MESSAGE
         # ===============================
-        print("Seeding process completed successfully!")
+        print("🎉 SEEDING PROCESS COMPLETED SUCCESSFULLY! 🚀")
+        print("_____________________________________________\n")

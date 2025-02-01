@@ -44,14 +44,11 @@ class Organizer(db.Model, SerializerMixin):
         """Ensures that no field is left empty or contains only whitespace."""
         if not value.strip():
             raise ValueError(f'{key.capitalize()} cannot be empty')
-        return value
 
-    @validates('contact_email')
-    def validate_email(self, key, email):
-        """Ensures the email contains '@' to maintain valid format."""
-        if '@' not in email:
+        if key == 'contact_email' and '@' not in value:
             raise ValueError('Invalid email format')
-        return email
+
+        return value
 
     def __repr__(self):
         """Returns a string representation of an Organizer instance."""
@@ -134,17 +131,14 @@ class Volunteer(db.Model, SerializerMixin):
 
     @validates('name', 'phone', 'email')
     def validate_not_empty(self, key, value):
-        """Ensures that name, phone, and email fields are not empty."""
+        """Ensures that no field is empty and validates email format."""
         if not value.strip():
             raise ValueError(f'{key.capitalize()} cannot be empty')
-        return value
 
-    @validates('email')
-    def validate_email(self, key, email):
-        """Ensures the email format is valid."""
-        if '@' not in email:
+        if key == 'email' and '@' not in value:
             raise ValueError('Invalid email format')
-        return email
+
+        return value
 
     def __repr__(self):
         """Returns a string representation of a Volunteer instance."""
