@@ -4,8 +4,6 @@
 **Brian Kinyanjui Gathui**  
 📧 [briankgathui@gmail.com](mailto:briankgathui@gmail.com)
 
----
-
 <br><br>
 
 ## Project Description
@@ -59,10 +57,6 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 - `volunteer_id` (Foreign Key referencing **Volunteer**)
 - **Relationships:** Many-to-One with **Event**, Many-to-One with **Volunteer**
 
----
-
-<br><br>
-
 ## 🔗 Relationships Table
 
 | Entity A    | Relationship Type | Entity B    | Description |
@@ -75,10 +69,6 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 | Volunteer  | One-to-Many      | Task       | A Volunteer can have multiple Tasks. |
 | Task       | Many-to-One      | Event      | A Task belongs to one Event. |
 | Task       | Many-to-One      | Volunteer  | A Task is assigned to one Volunteer. |
-
----
-
-<br><br>
 
 ## 🛠️ Technologies Used
 
@@ -105,10 +95,6 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 - **npm** – Frontend package management
 - **Render** – Cloud-based hosting
 - **Git & GitHub** – Version control
-
----
-
-<br><br>
 
 ## 📁 Project File Structure
 The **VolunTree** project follows a structured directory setup, ensuring clean separation of concerns between the frontend and backend components.
@@ -147,9 +133,10 @@ voluntree/
 │── .env                # Environment variables
 ```
 
+---
+
 <br><br>
 
----
 ## 📜 License
 
 **MIT License** 
