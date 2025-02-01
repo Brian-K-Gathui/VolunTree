@@ -1,13 +1,13 @@
 # VolunTree 🌳 - Full Stack Application Project
 
-**Author:** Brian Kinyanjui Gathui  
-**Email:** [briankgathui@gmail.com](mailto:briankgathui@gmail.com)
-<br><br>
+## Author
+**Brian Kinyanjui Gathui**  
+📧 [briankgathui@gmail.com](mailto:briankgathui@gmail.com)
+
+---
 
 ## Project Description
 **VolunTree** is a robust platform designed to empower Organizations in creating and managing volunteer-driven charity events with ease and efficiency. VolunTree streamlines the entire process, taking care of everything—from **Organization Registration & Management** and **Volunteer Registration & Management** to **Event Creation & Management** and **Task Assignment & Management**—all with consultation from the organizations. By partnering with VolunTree, organizations can focus entirely on their mission while we handle the logistics, supported by our comprehensive suite of tools and dedicated team to ensure every event is executed flawlessly.
-
-<br>
 
 ## Key Features:
 The following table outlines the core functionalities of **VolunTree**, highlighting how the platform efficiently manages organizations, volunteers, events, and tasks. Each feature is designed to streamline operations, ensuring smooth execution of volunteer-driven charity events with minimal effort from organizations.
@@ -20,70 +20,91 @@ The following table outlines the core functionalities of **VolunTree**, highligh
 | 5  | **Task Assignment & Management**     | **Assignment:** VolunTree staff assist organizations in assigning tasks to volunteers, ensuring clear roles and responsibilities. Tasks are tracked with statuses like "pending," "in progress," and "completed." <br> **Management:** Our team monitors task progress, provides support to volunteers, and resolves any issues to keep events on track. |
 | 6  | **Comprehensive Entity Management**  | VolunTree staff manage all key entities and their relationships through a centralized system: <br> **Organizations:** Can host multiple events, each with its own tasks and volunteers. <br> **Events:** Linked to one organizer, with multiple volunteers and tasks. <br> **Volunteers:** Can participate in multiple events and handle various tasks. <br> **Tasks:** Assigned to individual volunteers and tied to specific events. |
 
-VolunTree streamlines the entire process, allowing organizations to focus on their mission while we handle the logistics. By partnering with VolunTree, organizations outsource their volunteer-driven charity events to VolunTree, and VolunTree leverages its comprehensive suite of tools to execute these events seamlessly. 
-Together, we foster a collaborative environment where organizations can efficiently manage their charity events, and volunteers can engage in meaningful roles, all supported by our committed staff. With VolunTree, organizations can trust that every event will be executed flawlessly, allowing them to achieve their goals without the operational burden.
+## 📂 Entities & Relationships
 
-<br>
+### Organizers
+- `id` (Primary Key)
+- `name` (Organization Name)
+- `contact_name` (Main Contact)
+- `contact_phone`
+- `contact_email`
+- **Relationships:** One-to-Many with **Event**
 
-## Entities & Relationships
+### Events
+- `id` (Primary Key)
+- `name`
+- `date`
+- `location`
+- `organization_id` (Foreign Key referencing **Organizers**)
+- **Relationships:**
+  - Many-to-One with **Organizers**
+  - One-to-Many with **Task**
+  - Many-to-Many with **Volunteer**
 
+### Volunteers
+- `id` (Primary Key)
+- `name`
+- `email`
+- `phone`
+- **Relationships:** Many-to-Many with **Event**, One-to-Many with **Task**
 
-| **Organizers** | **Event** |
-|--------------|--------|
-| **Attributes:** <br> - `id` (primary key) <br> - `name` (e.g., the company’s or group’s name) <br> - `contact_name` (the main contact’s name) <br> - `contact_phone` <br> - `contact_email` <br> **Relationships:** <br> - One-to-many with **Event** (an Organizer can host many Events) | **Attributes:** <br> - `id` (primary key) <br> - `name` <br> - `date` <br> - `location` <br> - `organization_id` (foreign key referencing **Organizers**) <br> **Relationships:** <br> - Many-to-one with **Organizers** (an Event is hosted by exactly one Organizer) <br> - One-to-many with **Task** (an Event can have many Tasks) <br> - Many-to-many with **Volunteer** (an Event can have many Volunteers, and a Volunteer can join many Events) |
+### Tasks
+- `id` (Primary Key)
+- `title`
+- `description`
+- `status` ("pending", "in progress", "completed")
+- `event_id` (Foreign Key referencing **Event**)
+- `volunteer_id` (Foreign Key referencing **Volunteer**)
+- **Relationships:** Many-to-One with **Event**, Many-to-One with **Volunteer**
 
-| **Volunteer** | **Task** |
-|--------------|--------|
-| **Attributes:** <br> - `id` (primary key) <br> - `name` <br> - `email` <br> - `phone` <br> **Relationships:** <br> - One-to-many with **Task** (one Volunteer can have many Tasks) <br> - Many-to-many with **Event** | **Attributes:** <br> - `id` (primary key) <br> - `title` <br> - `description` <br> - `status` (e.g., "pending", "in progress", "completed") <br> - `event_id` (foreign key referencing **Event**) <br> - `volunteer_id` (foreign key referencing **Volunteer**) <br> **Relationships:** <br> - Many-to-one with **Event** (a Task belongs to exactly one Event) <br> - Many-to-one with **Volunteer** (a Task can be assigned to exactly one Volunteer) |
+---
 
-This grid ensures all the attributes and relationships for each entity are neatly organized within each table cell. Let me know if you need any adjustments! 🚀
-
-
-
-## Relationships Table
+## 🔗 Relationships Table
 
 | Entity A    | Relationship Type | Entity B    | Description |
 |------------|------------------|------------|-------------|
-| Organizers | One-to-Many      | Event      | An Organizer can host multiple Events, but an Event belongs to one Organizer. |
-| Event      | Many-to-One      | Organizers | An Event is hosted by one Organizer. |
-| Event      | One-to-Many      | Task       | An Event can have multiple Tasks, but a Task belongs to one Event. |
-| Event      | Many-to-Many     | Volunteer  | An Event can have many Volunteers, and a Volunteer can join multiple Events. |
-| Volunteer  | Many-to-Many     | Event      | A Volunteer can join multiple Events, and an Event can have multiple Volunteers. |
-| Volunteer  | One-to-Many      | Task       | A Volunteer can have multiple Tasks, but a Task is assigned to only one Volunteer. |
+| Organizers | One-to-Many      | Event      | An Organizer can host multiple Events. |
+| Event      | Many-to-One      | Organizers | An Event belongs to one Organizer. |
+| Event      | One-to-Many      | Task       | An Event can have multiple Tasks. |
+| Event      | Many-to-Many     | Volunteer  | An Event can have many Volunteers. |
+| Volunteer  | Many-to-Many     | Event      | A Volunteer can join multiple Events. |
+| Volunteer  | One-to-Many      | Task       | A Volunteer can have multiple Tasks. |
 | Task       | Many-to-One      | Event      | A Task belongs to one Event. |
 | Task       | Many-to-One      | Volunteer  | A Task is assigned to one Volunteer. |
 
-<br>
+---
 
-## Technologies Used
-The **VolunTree** platform is built using a modern full-stack approach, integrating a powerful backend with an interactive frontend for seamless user experience. The following technologies and frameworks were utilized:
+---
+
+## 🛠️ Technologies Used
+
 ### **Frontend (Client)**
-- **React.js** – Frontend JavaScript framework for building a dynamic and responsive UI.
-- **React Router** – Enables client-side routing for seamless navigation.
-- **Formik & Yup** – Used for form handling and validation.
-- **CSS/Styled Components** – Styling for a clean and modern interface.
-- **Fetch API** – Handles communication with the backend API.
+- **React.js** – Dynamic and responsive UI
+- **React Router** – Client-side navigation
+- **Formik & Yup** – Form handling and validation
+- **CSS/Styled Components** – Modern interface design
+- **Fetch API** – Handles API communication
 
 ### **Backend (Server)**
-- **Flask** – Lightweight Python framework used for the backend API.
-- **Flask-RESTful** – Facilitates building RESTful APIs.
-- **Flask-SQLAlchemy** – ORM for handling database operations.
-- **Flask-Migrate** – Handles database migrations.
-- **Flask-CORS** – Enables Cross-Origin Resource Sharing for API requests.
+- **Flask** – Lightweight Python framework
+- **Flask-RESTful** – REST API development
+- **Flask-SQLAlchemy** – ORM for database handling
+- **Flask-Migrate** – Database migration support
+- **Flask-CORS** – API Cross-Origin support
 
 ### **Database**
-- **SQLite** – Lightweight relational database for data storage.
-- **SQLAlchemy ORM** – Used to interact with the database using Python objects.
+- **SQLite** – Lightweight relational database
+- **SQLAlchemy ORM** – Pythonic database interactions
 
 ### **Development & Deployment**
-- **Pipenv** – Dependency management for the backend.
-- **npm** – Package manager for frontend dependencies.
-- **Render** – Deployment platform for hosting the application.
-- **Git & GitHub** – Version control and collaboration.
+- **Pipenv** – Backend dependency management
+- **npm** – Frontend package management
+- **Render** – Cloud-based hosting
+- **Git & GitHub** – Version control
 
-<br>
+---
 
-## Project File Structure
+## 📁 Project File Structure
 The **VolunTree** project follows a structured directory setup, ensuring clean separation of concerns between the frontend and backend components.
 
 ```plaintext
@@ -92,42 +113,40 @@ voluntree/
 │   ├── README.md
 │   ├── package.json     # Dependencies & Scripts
 │   ├── public/          # Static assets
-│   └── src/             # Source code for React app
-│       ├── components/  # Reusable UI components
-│       ├── pages/       # Application pages
-│       ├── context/     # Global state management
+│   └── src/             # Source code
+│       ├── components/  # UI components
+│       ├── pages/       # App pages
+│       ├── context/     # State management
 │       ├── hooks/       # Custom hooks
-│       ├── services/    # API request handling
-│       ├── styles/      # Global styles & themes
+│       ├── services/    # API requests
+│       ├── styles/      # Global styles
 │       ├── App.js       # Main App component
-│       └── index.js     # React entry point
+│       └── index.js     # Entry point
 │
 │── server/             # Flask Backend
-│   ├── app.py          # Flask Application
-│   ├── config.py       # Configuration settings
+│   ├── app.py          # Main Application
+│   ├── config.py       # Configurations
 │   ├── models.py       # Database models
-│   ├── seed.py         # Database seeding script
+│   ├── seed.py         # Database seeding
 │   ├── migrations/     # Database migrations
-│   ├── instance/       # SQLite database storage
 │   ├── routes/         # API endpoints
 │   ├── controllers/    # Business logic
 │   ├── services/       # Helper functions
-│   └── __init__.py     # App initialization
+│   └── __init__.py     # Initialization
 │
 │── Pipfile             # Backend dependency manager
 │── LICENSE.md          # License information
 │── README.md           # Project documentation
-│── .gitignore          # Files to ignore in version control
-│── .env                # Environment variables (ignored in Git)
+│── .gitignore          # Git ignored files
+│── .env                # Environment variables
 ```
-<br>
-
 
 <br><br>
 
-## License
+---
+## 📜 License
 
-MIT License  
+**MIT License** 
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
