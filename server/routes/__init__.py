@@ -1,8 +1,8 @@
 from flask_restful import Api
-from routes.events import EventResource, EventByIdResource
-from routes.organizers import OrganizerResource, OrganizerByIdResource
-from routes.volunteers import VolunteerResource, VolunteerByIdResource
-from routes.tasks import TaskResource, TaskByIdResource
+from routes.event_routes import EventResource, EventByIdResource
+from routes.organizer_routes import OrganizerResource, OrganizerByIdResource
+from routes.volunteer_routes import VolunteerResource, VolunteerByIdResource
+from routes.task_routes import TaskResource, TaskByIdResource
 
 def register_routes(api: Api):
     """Registers all API routes with the Flask app."""
