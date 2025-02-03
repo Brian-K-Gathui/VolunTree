@@ -1,15 +1,12 @@
 from models import db, Event
 
 def get_all_events():
-    """Fetch all events from the database."""
     return Event.query.all()
 
 def get_event_by_id(event_id):
-    """Retrieve a single event by ID."""
     return Event.query.get(event_id)
 
 def create_event(data):
-    """Create a new event."""
     new_event = Event(
         name=data['name'],
         date=data['date'],
@@ -21,7 +18,6 @@ def create_event(data):
     return new_event
 
 def update_event(event_id, data):
-    """Update an existing event."""
     event = Event.query.get(event_id)
     if event:
         for key, value in data.items():
@@ -30,7 +26,6 @@ def update_event(event_id, data):
     return event
 
 def delete_event(event_id):
-    """Delete an event from the database."""
     event = Event.query.get(event_id)
     if event:
         db.session.delete(event)
