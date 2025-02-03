@@ -1,34 +1,27 @@
 from flask import request
 from flask_restful import Resource
-from controllers.event_controller import (
-    get_all_events,
-    get_event_by_id,
-    create_event,
-    update_event,
-    delete_event
-)
+from controllers.event_controller import get_all_events, get_event_by_id, create_event, update_event, delete_event
 
 class EventResource(Resource):
-    def get(self, event_id=None):
-        if event_id:
-            event = get_event_by_id(event_id)
-            return event.to_dict() if event else {"error": "Event not found"}, 404
-        return [event.to_dict() for event in get_all_events()], 200
+    def get(self):
+        events, status_code = get_all_events()
+        return events, status_code
 
     def post(self):
         data = request.get_json()
-        event = create_event(data)
-        return event.to_dict(), 201
+        event, status_code = create_event(data)
+        return event, status_code
 
 class EventByIdResource(Resource):
     def get(self, event_id):
-        event = get_event_by_id(event_id)
-        return event.to_dict() if event else {"error": "Event not found"}, 404
+        event, status_code = get_event_by_id(event_id)
+        return event, status_code
 
     def patch(self, event_id):
         data = request.get_json()
-        event = update_event(event_id, data)
-        return event.to_dict() if event else {"error": "Event not found"}, 404
+        event, status_code = update_event(event_id, data)
+        return event, status_code
 
     def delete(self, event_id):
-        return {"message": "Event deleted"} if delete_event(event_id) else {"error": "Event not found"}, 404
+        response, status_code = delete_event(event_id)
+        return response, status_code

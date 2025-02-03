@@ -6,6 +6,7 @@ from routes.task_routes import TaskResource, TaskByIdResource
 from routes.admin_routes import AdminSignup, AdminLogin, AdminProfile
 
 def register_routes(api: Api):
+    """Register all API routes for the application."""
     api.add_resource(EventResource, '/events')
     api.add_resource(EventByIdResource, '/events/<int:event_id>')
     api.add_resource(OrganizerResource, '/organizers')

@@ -8,10 +8,16 @@ from flask_restful import Api
 from config import app, db
 from routes import register_routes
 
+# Enable CORS for frontend integration
 CORS(app)
+
+# Initialize Flask-RESTful API
 api = Api(app)
+
+# Initialize database migrations
 Migrate(app, db)
 
+# Register all routes
 register_routes(api)
 
 @app.route('/')

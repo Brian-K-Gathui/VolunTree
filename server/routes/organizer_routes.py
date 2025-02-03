@@ -1,34 +1,27 @@
 from flask import request
 from flask_restful import Resource
-from controllers.organizer_controller import (
-    get_all_organizers,
-    get_organizer_by_id,
-    create_organizer,
-    update_organizer,
-    delete_organizer
-)
+from controllers.organizer_controller import get_all_organizers, get_organizer_by_id, create_organizer, update_organizer, delete_organizer
 
 class OrganizerResource(Resource):
-    def get(self, organizer_id=None):
-        if organizer_id:
-            organizer = get_organizer_by_id(organizer_id)
-            return organizer.to_dict() if organizer else {"error": "Organizer not found"}, 404
-        return [org.to_dict() for org in get_all_organizers()], 200
+    def get(self):
+        organizers, status_code = get_all_organizers()
+        return organizers, status_code
 
     def post(self):
         data = request.get_json()
-        organizer = create_organizer(data)
-        return organizer.to_dict(), 201
+        organizer, status_code = create_organizer(data)
+        return organizer, status_code
 
 class OrganizerByIdResource(Resource):
     def get(self, organizer_id):
-        organizer = get_organizer_by_id(organizer_id)
-        return organizer.to_dict() if organizer else {"error": "Organizer not found"}, 404
+        organizer, status_code = get_organizer_by_id(organizer_id)
+        return organizer, status_code
 
     def patch(self, organizer_id):
         data = request.get_json()
-        organizer = update_organizer(organizer_id, data)
-        return organizer.to_dict() if organizer else {"error": "Organizer not found"}, 404
+        organizer, status_code = update_organizer(organizer_id, data)
+        return organizer, status_code
 
     def delete(self, organizer_id):
-        return {"message": "Organizer deleted"} if delete_organizer(organizer_id) else {"error": "Organizer not found"}, 404
+        response, status_code = delete_organizer(organizer_id)
+        return response, status_code

@@ -9,12 +9,12 @@ class AdminSignup(Resource):
         data = request.get_json()
 
         if Admin.query.filter_by(username=data['username']).first():
-            return jsonify({"error": "Username already exists"}), 400
+            return {"error": "Username already exists"}, 400
         if Admin.query.filter_by(email=data['email']).first():
-            return jsonify({"error": "Email already registered"}), 400
+            return {"error": "Email already registered"}, 400
 
         if data['password'] != data['password_confirmation']:
-            return jsonify({"error": "Passwords do not match"}), 400
+            return {"error": "Passwords do not match"}, 400
 
         new_admin = Admin(
             first_name=data['first_name'],
@@ -27,7 +27,7 @@ class AdminSignup(Resource):
         db.session.add(new_admin)
         db.session.commit()
 
-        return jsonify({"message": "Admin registered successfully!"}), 201
+        return {"message": "Admin registered successfully!"}, 201
 
 class AdminLogin(Resource):
     def post(self):
@@ -35,13 +35,10 @@ class AdminLogin(Resource):
         admin = Admin.query.filter_by(username=data['username']).first()
         
         if not admin or not admin.check_password(data['password']):
-            return jsonify({"error": "Invalid username or password"}), 401
+            return {"error": "Invalid username or password"}, 401
 
         access_token = create_access_token(identity=admin.id)
-        return jsonify({
-            "message": "Login successful!",
-            "access_token": access_token
-        }), 200
+        return {"message": "Login successful!", "access_token": access_token}, 200
 
 class AdminProfile(Resource):
     @jwt_required()
@@ -50,11 +47,6 @@ class AdminProfile(Resource):
         admin = Admin.query.get(admin_id)
 
         if not admin:
-            return jsonify({"error": "Admin not found"}), 404
+            return {"error": "Admin not found"}, 404
 
-        return jsonify({
-            "first_name": admin.first_name,
-            "last_name": admin.last_name,
-            "email": admin.email,
-            "username": admin.username
-        }), 200
+        return admin.serialize(), 200
