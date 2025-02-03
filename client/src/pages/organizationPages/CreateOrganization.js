@@ -1,11 +1,11 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom"; // ✅ Fixed import
-import { postData } from "../services/api";
+import { useNavigate } from "react-router-dom"; 
+import { postData } from "../../services/api";
 
-const OrganizationForm = () => {
-    const navigate = useNavigate(); // ✅ Fixed navigation for React Router v6
+const CreateOrganization = () => {
+    const navigate = useNavigate(); 
 
     const formik = useFormik({
         initialValues: { name: "", contact_name: "", contact_phone: "", contact_email: "" },
@@ -17,7 +17,7 @@ const OrganizationForm = () => {
         }),
         onSubmit: async (values) => {
             await postData("organizers", values);
-            navigate("/organizations"); // ✅ Fixed navigation issue
+            navigate("/organizations"); 
         },
     });
 

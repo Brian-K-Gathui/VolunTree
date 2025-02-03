@@ -23,7 +23,7 @@ import TaskList from "./pages/taskPages/TaskList";
 import CreateTask from "./pages/taskPages/CreateTask"; 
 import EditTask from "./pages/taskPages/EditTask"; 
 
-import NotFound from "./pages/notfound"; // Ensure this file has a default export
+import NotFound from "./pages/notfound"; 
 
 const App = () => {
     return (
@@ -36,19 +36,19 @@ const App = () => {
                 <Route path="/admin/edit/:id" element={<EditAdmin />} />
 
                 <Route path="/organizations" element={<OrganizationList />} />
-                <Route path="/organizations/new" element={<CreateOrganization />} />
+                <Route path="/organizations/create" element={<CreateOrganization />} />
                 <Route path="/organizations/edit/:id" element={<EditOrganization />} />
 
                 <Route path="/volunteers" element={<VolunteerList />} />
-                <Route path="/volunteers/new" element={<CreateVolunteer />} />
+                <Route path="/volunteers/create" element={<CreateVolunteer />} />
                 <Route path="/volunteers/edit/:id" element={<EditVolunteer />} />
 
                 <Route path="/events" element={<EventList />} />
-                <Route path="/events/new" element={<CreateEvent />} />
+                <Route path="/events/create" element={<CreateEvent />} />
                 <Route path="/events/edit/:id" element={<EditEvent />} />
 
                 <Route path="/tasks" element={<TaskList />} />
-                <Route path="/tasks/new" element={<CreateTask />} />
+                <Route path="/tasks/create" element={<CreateTask />} />
                 <Route path="/tasks/edit/:id" element={<EditTask />} />
 
                 <Route path="*" element={<NotFound />} />

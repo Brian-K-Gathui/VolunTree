@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { postData } from "../services/api";
+import { postData } from "../../services/api";
+
 
 const SignUp = () => {
   const navigate = useNavigate();

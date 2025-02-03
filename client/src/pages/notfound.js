@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export function NotFound() {
+const NotFound = () => {
     return (
         <div className="dashboard-container">
             <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
@@ -13,4 +13,6 @@ export function NotFound() {
             </div>
         </div>
     );
-}
+};
+
+export default NotFound;
