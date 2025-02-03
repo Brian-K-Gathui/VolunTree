@@ -1,10 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar"; 
-import Footer from "./components/Footer"; 
+
+// ✅ Ensure correct imports for all components
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Login from "./pages/adminPages/LoginAdmin";  
-import SignUp from "./pages/adminPages/SignUpAdmin";  
+import LoginAdmin from "./pages/adminPages/LoginAdmin";  
+import SignUpAdmin from "./pages/adminPages/SignUpAdmin";  
 import EditAdmin from "./pages/adminPages/EditAdmin";
 
 import OrganizationList from "./pages/organizationPages/OrganizationList";  
@@ -31,8 +33,8 @@ const App = () => {
             <Navbar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
+                <Route path="/login" element={<LoginAdmin />} />
+                <Route path="/signup" element={<SignUpAdmin />} />
                 <Route path="/admin/edit/:id" element={<EditAdmin />} />
 
                 <Route path="/organizations" element={<OrganizationList />} />

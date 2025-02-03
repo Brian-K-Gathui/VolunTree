@@ -1,13 +1,13 @@
 from models import db, Organizer
 
 def get_all_organizers():
-    return [org.serialize() for org in Organizer.query.all()], 200
+    return [org.to_dict() for org in Organizer.query.all()], 200
 
 def get_organizer_by_id(organizer_id):
     organizer = Organizer.query.get(organizer_id)
     if not organizer:
         return {"error": "Organizer not found"}, 404
-    return organizer.serialize(), 200
+    return organizer.to_dict(), 200
 
 def create_organizer(data):
     new_organizer = Organizer(
@@ -18,7 +18,7 @@ def create_organizer(data):
     )
     db.session.add(new_organizer)
     db.session.commit()
-    return new_organizer.serialize(), 201
+    return new_organizer.to_dict(), 201
 
 def update_organizer(organizer_id, data):
     organizer = Organizer.query.get(organizer_id)
@@ -29,7 +29,7 @@ def update_organizer(organizer_id, data):
         setattr(organizer, key, value)
     
     db.session.commit()
-    return organizer.serialize(), 200
+    return organizer.to_dict(), 200
 
 def delete_organizer(organizer_id):
     organizer = Organizer.query.get(organizer_id)

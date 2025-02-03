@@ -9,8 +9,8 @@ def register_routes(api: Api):
     api.add_resource(EventResource, '/events')
     api.add_resource(EventByIdResource, '/events/<int:event_id>')
     
-    api.add_resource(OrganizerResource, '/organizers')
-    api.add_resource(OrganizerByIdResource, '/organizers/<int:organizer_id>')
+    api.add_resource(OrganizerResource, '/organizations')
+    api.add_resource(OrganizerByIdResource, '/organizations/<int:organizer_id>')
     
     api.add_resource(VolunteerResource, '/volunteers')
     api.add_resource(VolunteerByIdResource, '/volunteers/<int:volunteer_id>')
