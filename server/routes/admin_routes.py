@@ -1,8 +1,8 @@
 from flask import request, jsonify
 from flask_restful import Resource
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from models import db, Admin
 from werkzeug.security import check_password_hash
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 class AdminSignup(Resource):
     def post(self):
@@ -23,7 +23,7 @@ class AdminSignup(Resource):
             username=data['username']
         )
         new_admin.set_password(data['password'])
-        
+
         db.session.add(new_admin)
         db.session.commit()
 
@@ -33,8 +33,8 @@ class AdminLogin(Resource):
     def post(self):
         data = request.get_json()
         admin = Admin.query.filter_by(username=data['username']).first()
-        
-        if not admin or not admin.check_password(data['password']):
+
+        if not admin or not check_password_hash(admin.password_hash, data['password']):
             return {"error": "Invalid username or password"}, 401
 
         access_token = create_access_token(identity=admin.id)

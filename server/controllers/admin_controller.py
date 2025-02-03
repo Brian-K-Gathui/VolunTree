@@ -2,11 +2,14 @@ from models import db, Admin
 
 def get_all_admins():
     """Fetch all admins from the database."""
-    return Admin.query.all()
+    return [admin.serialize() for admin in Admin.query.all()], 200
 
 def get_admin_by_id(admin_id):
     """Retrieve a single admin by ID."""
-    return Admin.query.get(admin_id)
+    admin = Admin.query.get(admin_id)
+    if not admin:
+        return {"error": "Admin not found"}, 404
+    return admin.serialize(), 200
 
 def create_admin(data):
     """Register a new admin."""
@@ -25,7 +28,7 @@ def create_admin(data):
 
     db.session.add(new_admin)
     db.session.commit()
-    return new_admin.to_dict(), 201
+    return new_admin.serialize(), 201
 
 def update_admin(admin_id, data):
     """Update an existing admin."""
@@ -40,7 +43,7 @@ def update_admin(admin_id, data):
             setattr(admin, key, value)
 
     db.session.commit()
-    return admin.to_dict(), 200
+    return admin.serialize(), 200
 
 def delete_admin(admin_id):
     """Delete an admin from the database."""
