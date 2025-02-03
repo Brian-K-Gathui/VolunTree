@@ -1,9 +1,49 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
-from sqlalchemy.ext.associationproxy import association_proxy
+# from sqlalchemy.ext.associationproxy import association_proxy  # Uncomment only if you need it
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from config import db
+
+
+class Admin(db.Model, SerializerMixin):
+    """
+    Admin Model: Represents administrative users who manage the VolunTree platform.
+
+    Attributes:
+    - `first_name` (String): Admin's first name.
+    - `last_name` (String): Admin's last name.
+    - `email` (String): Admin's unique email address (must follow firstname.lastname@gmail.com format).
+    - `username` (String): Unique username for authentication.
+    - `password_hash` (String): Hashed password for secure authentication.
+    
+    Authentication:
+    - Passwords are stored securely using hashing.
+    - Admins log in using their username and password.
+    - JWT authentication is used to manage secure sessions.
+    """
+
+    __tablename__ = 'admins'
+
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    username = db.Column(db.String(50), nullable=False, unique=True)
+    password_hash = db.Column(db.String(256), nullable=False)
+
+    def set_password(self, password):
+        """Hashes and stores the admin's password."""
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Validates a given password against the stored hash."""
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f'<Admin {self.id}: {self.username}>'
+
 
 class Organizer(db.Model, SerializerMixin):
     """
@@ -146,43 +186,3 @@ event_volunteers = db.Table(
     db.Column('event_id', db.Integer, db.ForeignKey('events.id'), primary_key=True),
     db.Column('volunteer_id', db.Integer, db.ForeignKey('volunteers.id'), primary_key=True)
 )
-
-class Admin(db.Model, SerializerMixin):
-    """
-    Admin Model: Represents administrative users who manage the VolunTree platform.
-    
-    Attributes:
-    - `first_name` (String): Admin's first name.
-    - `last_name` (String): Admin's last name.
-    - `email` (String): Admin's unique email address (must follow firstname.lastname@gmail.com format).
-    - `username` (String): Unique username for authentication.
-    - `password_hash` (String): Hashed password for secure authentication.
-    
-    Authentication:
-    - Passwords are stored securely using hashing.
-    - Admins log in using their username and password.
-    - JWT authentication is used to manage secure sessions.
-    """
-
-    __tablename__ = 'admins'
-
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), nullable=False, unique=True)
-    username = db.Column(db.String(50), nullable=False, unique=True)
-    password_hash = db.Column(db.String(256), nullable=False)
-
-    def set_password(self, password):
-        """Hashes and stores the admin's password."""
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        """Validates a given password against the stored hash."""
-        return check_password_hash(self.password_hash, password)
-
-    def __repr__(self):
-        """Returns a string representation of an Admin instance."""
-        return f'<Admin {self.id}: {self.username}>'
-
-

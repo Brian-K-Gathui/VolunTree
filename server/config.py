@@ -25,14 +25,14 @@ db.init_app(app)
 
 api = Api(app)
 CORS(app)
-
-print("\n✅ Flask app configured successfully!")
+print("\n_____________________________________________\n")
+print("✅ Flask app configured successfully!")
 print("🚀 Database connected to 'voluntree.db'")
-print("_____________________________________________\n")
 
 def run_command(command, success_msg, error_msg):
     try:
         subprocess.run(command, shell=True, check=True)
+        print("_____________________________________________\n")
         print(f"✅ {success_msg}")
         print("_____________________________________________\n")
     except subprocess.CalledProcessError as e:
@@ -40,21 +40,29 @@ def run_command(command, success_msg, error_msg):
         sys.exit(1)
 
 if __name__ == "__main__":
+    print("\n_____________________________________________\n")
     print("📂 Initializing database migrations...")
     print("_____________________________________________\n")
 
-    if subprocess.call("flask db init", shell=True) == 0:
-        print("✅ Migrations directory successfully created! 🚀")
-        print("_____________________________________________\n")
+    run_command(
+        "flask db init",
+        "Migrations directory successfully created! 🚀",
+        "Failed to initialize migrations directory."
+    )
 
-    if subprocess.call('flask db migrate -m "Initial migration"', shell=True) == 0:
-        print("✅ Migration script successfully generated! 📝")
-        print("_____________________________________________\n")
+    run_command(
+        'flask db migrate -m "Initial migration"',
+        "Migration script successfully generated! 📝",
+        "Failed to generate migration script."
+    )
 
-    if subprocess.call("flask db upgrade", shell=True) == 0:
-        print("✅ Database schema successfully applied! 🎉")
-        print("_____________________________________________\n")
+    run_command(
+        "flask db upgrade",
+        "Database schema successfully applied! 🎉",
+        "Failed to apply database schema."
+    )
 
-    print("\n🎯 All migration steps completed successfully!")
+    print("_____________________________________________\n")
+    print("🎯 All migration steps completed successfully!")
     print("🚀 You can now run the Flask server using: `flask run`")
     print("_____________________________________________\n")

@@ -9,7 +9,8 @@ def get_organizer_by_id(organizer_id):
 def create_organizer(data):
     new_organizer = Organizer(
         name=data['name'],
-        contact_name=data['contact_name'],
+        contact_first_name=data['contact_first_name'],
+        contact_last_name=data['contact_last_name'],
         contact_phone=data['contact_phone'],
         contact_email=data['contact_email']
     )

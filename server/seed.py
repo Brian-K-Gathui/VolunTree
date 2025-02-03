@@ -1,27 +1,64 @@
 import random
 from random import randint, choice as rc
 from faker import Faker
+from werkzeug.security import generate_password_hash
 
 from app import app
-from models import db, Organizer, Event, Volunteer, Task, event_volunteers
+from models import db, Organizer, Event, Volunteer, Task, event_volunteers, Admin
 
 fake = Faker()
 
 if __name__ == '__main__':
     with app.app_context():
-        print("\n🚀 Starting seed process...")
+        print("🚀 Starting seed process...")
         print("_____________________________________________\n")
 
+        # Clearing old data
+        print("_____________________________________________\n")
         print("🗑️  Clearing old data...")
         db.session.query(event_volunteers).delete()
         db.session.query(Task).delete()
         db.session.query(Event).delete()
         db.session.query(Volunteer).delete()
         db.session.query(Organizer).delete()
+        db.session.query(Admin).delete()
         db.session.commit()
         print("✅ Old data cleared!")
         print("_____________________________________________\n")
 
+        # Seeding Admins
+        print("_____________________________________________\n")
+        print("👨‍💼 Seeding admin users...")
+        admin_users = [
+            Admin(
+                first_name="Brian",
+                last_name="Gathui",
+                email="brian.gathui@gmail.com",
+                username="brian_admin",
+                password_hash=generate_password_hash("admin123")
+            ),
+            Admin(
+                first_name="Alice",
+                last_name="Johnson",
+                email="alice.johnson@gmail.com",
+                username="alice_admin",
+                password_hash=generate_password_hash("securePass!")
+            ),
+            Admin(
+                first_name="Michael",
+                last_name="Smith",
+                email="michael.smith@gmail.com",
+                username="mike_admin",
+                password_hash=generate_password_hash("michael2024")
+            )
+        ]
+        db.session.add_all(admin_users)
+        db.session.commit()
+        print(f"✅ Seeded {len(admin_users)} admin users!")
+        print("_____________________________________________\n")
+
+        # Seeding Organizers
+        print("_____________________________________________\n")
         print("🏢 Seeding organizers...")
         organizers = []
         for _ in range(5):
@@ -37,6 +74,7 @@ if __name__ == '__main__':
         print(f"✅ Seeded {len(organizers)} organizers!")
         print("_____________________________________________\n")
 
+        # Seeding Events
         print("📅 Seeding events...")
         events = []
         for _ in range(10):
@@ -52,6 +90,7 @@ if __name__ == '__main__':
         print(f"✅ Seeded {len(events)} events!")
         print("_____________________________________________\n")
 
+        # Seeding Volunteers
         print("🙋 Seeding volunteers...")
         volunteers = []
         for _ in range(15):
@@ -66,6 +105,7 @@ if __name__ == '__main__':
         print(f"✅ Seeded {len(volunteers)} volunteers!")
         print("_____________________________________________\n")
 
+        # Assigning Volunteers to Events
         print("🔗 Assigning volunteers to events...")
         event_volunteer_entries = []
         for volunteer in volunteers:
@@ -79,6 +119,7 @@ if __name__ == '__main__':
         print(f"✅ Assigned volunteers to {len(event_volunteer_entries)} event-volunteer entries!")
         print("_____________________________________________\n")
 
+        # Seeding Tasks
         print("📝 Seeding tasks...")
         statuses = ["pending", "in progress", "completed"]
         tasks = []

@@ -11,7 +11,8 @@ def get_volunteer_by_id(volunteer_id):
 def create_volunteer(data):
     """Register a new volunteer."""
     new_volunteer = Volunteer(
-        name=data['name'],
+        first_name=data['first_name'],
+        last_name=data['last_name'],
         email=data['email'],
         phone=data['phone']
     )
